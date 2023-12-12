@@ -49,8 +49,8 @@ button:hover {
     margin-bottom: 20px;
     border-radius: 8px;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column; /* Display buttons in a column */
+    align-items: flex-start; /* Align buttons to the start (left) */
     transition: all 0.3s ease;
 }
 
@@ -67,6 +67,7 @@ button:hover {
     border: none;
     background: none;
     cursor: pointer;
+    margin-top: 5px; /* Add some margin between buttons */
 }
 
 .task button:hover {
