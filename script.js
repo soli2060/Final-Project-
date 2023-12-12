@@ -13,7 +13,7 @@ function renderTasks() {
     tasks.forEach((task, index) => {
         const taskElement = document.createElement('div');
         taskElement.classList.add('task');
-
+        
         // Check if the task is not completed and the due date is in the future
         if (!task.completed && isFutureDueDate(task.dueDate)) {
             alert(`Reminder: ${task.title} is due now!`);
@@ -21,10 +21,8 @@ function renderTasks() {
 
         taskElement.innerHTML = `
             <span>${task.title} - Due: ${task.dueDate}</span>
-            <div>
-                <button onclick="toggleComplete(${index})">Complete</button>
-                <button onclick="deleteTask(${index})">Delete</button>
-            </div>
+            <button onclick="toggleComplete(${index})">Complete</button>
+            <button onclick="deleteTask(${index})">Delete</button>
         `;
         
         // Add the 'completed' class if the task is completed
