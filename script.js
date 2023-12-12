@@ -1,3 +1,4 @@
+// script.js
 let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 
 function saveTasks() {
@@ -8,18 +9,21 @@ function saveTasks() {
 function renderTasks() {
     const taskList = document.getElementById('tasks-list');
     taskList.innerHTML = '';
+
     tasks.forEach((task, index) => {
         const taskElement = document.createElement('div');
         taskElement.classList.add('task');
-        if (task.completed) {
-            taskElement.classList.add('completed');
+        
+        // Check if the task is not completed and the due date is in the future
+        if (!task.completed && isFutureDueDate(task.dueDate)) {
+            alert(`Reminder: ${task.title} is due now!`);
         }
+
         taskElement.innerHTML = `
-            <span>${task.title} - Due: ${task.dueDate} - Priority: ${task.priority}</span>
+            <span>${task.title} - Due: ${task.dueDate}</span>
             <div>
-                <button onclick="toggleComplete(${index})">✓</button>
-                <button onclick="deleteTask(${index})">delete </button>
-                <button onclick="editTask(${index})">✏️</button>
+                <button onclick="toggleComplete(${index})">Complete</button>
+                <button onclick="deleteTask(${index})">Delete</button>
             </div>
         `;
         taskList.appendChild(taskElement);
@@ -29,20 +33,17 @@ function renderTasks() {
 function addTask() {
     const taskInput = document.getElementById('task-input');
     const dueDateInput = document.getElementById('task-due-date');
-    const prioritySelect = document.getElementById('task-priority');
 
     const task = taskInput.value.trim();
     const dueDate = dueDateInput.value;
-    const priority = prioritySelect.value;
 
-    if (task) {
-        tasks.push({ title: task, dueDate, priority, completed: false });
+    if (task && dueDate) {
+        tasks.push({ title: task, dueDate, completed: false });
         taskInput.value = '';
         dueDateInput.value = '';
-        prioritySelect.value = 'Medium';
         saveTasks();
     } else {
-        alert('Please enter a task');
+        alert('Please enter both a task and a due date');
     }
 }
 
@@ -56,12 +57,10 @@ function deleteTask(index) {
     saveTasks();
 }
 
-function editTask(index) {
-    const newTitle = prompt('Edit Task:', tasks[index].title);
-    if (newTitle != null) {
-        tasks[index].title = newTitle;
-        saveTasks();
-    }
+function isFutureDueDate(dueDate) {
+    const now = new Date();
+    const dueDateTime = new Date(dueDate);
+    return dueDateTime > now;
 }
 
 window.onload = renderTasks;
