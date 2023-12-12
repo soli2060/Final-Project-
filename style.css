@@ -1,3 +1,4 @@
+/* style.css */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -6,7 +7,7 @@ body {
 }
 
 header {
-    background-color:rgb(96, 96, 157);
+    background-color: rgb(96, 96, 157);
     color: #f1dfdf;
     text-align: center;
     padding: 1rem 0;
@@ -20,16 +21,14 @@ main {
     padding: 10px;
     width: 70%;
 }
- 
-#task-form input[type=date],
-#task-form select {
+
+#task-form input[type=datetime-local] {
     padding: 10px;
     margin-left: 5px;
 }
 
 button {
     padding: 10px;
-    width: 20%;
     background-color: rgb(127, 127, 224);
     color: rgb(31, 63, 34);
     border: none;
@@ -41,14 +40,14 @@ button:hover {
 }
 
 #tasks-list {
-    margin-top: 60px;
+    margin-top: 20px; /* Adjusted margin for better spacing */
 }
 
 .task {
-    background:rgb(236, 236, 240);
+    background: rgb(236, 236, 240);
     padding: 20px;
     margin-bottom: 20px;
-    border-radius: 8;
+    border-radius: 8px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -65,7 +64,6 @@ button:hover {
 }
 
 .task button {
-    margin-left: 10px;
     border: none;
     background: none;
     cursor: pointer;
@@ -73,11 +71,4 @@ button:hover {
 
 .task button:hover {
     color: rgb(222, 23, 23);
-}
-
-@media only screen and (max-width: 600px) {
-    #task-input, #task-due-date, #task-priority, button {
-        width: 100%;
-        margin-bottom: 40px;
-    }
 }
