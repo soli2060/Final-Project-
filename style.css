@@ -49,8 +49,8 @@ button:hover {
     margin-bottom: 20px;
     border-radius: 8px;
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    justify-content: space-between;
+    align-items: center;
     transition: all 0.3s ease;
 }
 
@@ -61,29 +61,12 @@ button:hover {
 .task.completed {
     text-decoration: line-through;
     opacity: 0.6;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.task.completed span {
-    flex-grow: 1;
-}
-
-.task.completed div {
-    display: flex;
-    gap: 10px;
-}
-
-.task.completed button {
-    margin: 0;
 }
 
 .task button {
     border: none;
     background: none;
     cursor: pointer;
-    margin-top: 5px;
 }
 
 .task button:hover {
