@@ -45,6 +45,7 @@ function renderTasks() {
 function showCustomModal(message) {
     const modalContainer = document.createElement('div');
     modalContainer.classList.add('modal-container');
+    modalContainer.setAttribute('id', 'reminder-modal');
 
     const modalContent = document.createElement('div');
     modalContent.classList.add('modal-content');
@@ -58,7 +59,7 @@ function showCustomModal(message) {
 }
 
 function removeReminder() {
-    const modalContainer = document.querySelector('.modal-container');
+    const modalContainer = document.getElementById('reminder-modal');
     if (modalContainer) {
         modalContainer.remove();
     }
