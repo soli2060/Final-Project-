@@ -13,6 +13,8 @@ function addTask() {
 
         // Calculate the number of days remaining until the task is due
         const daysRemaining = calculateDaysRemaining(dueDate);
+
+        // Display an alert with the calculated days remaining
         if (daysRemaining > 0) {
             alert(`Reminder: ${task} is due in ${daysRemaining} days!`);
         } else if (daysRemaining === 0) {
