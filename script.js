@@ -10,24 +10,21 @@ function renderTasks() {
     taskList.innerHTML = '';
 
     tasks.forEach((task, index) => {
-        // Skip rendering completed tasks
-        if (!task.completed) {
-            const taskElement = document.createElement('div');
-            taskElement.classList.add('task');
+        const taskElement = document.createElement('div');
+        taskElement.classList.add('task');
 
-            taskElement.innerHTML = `
-                <span>${task.title} - Due: ${task.dueDate}</span>
-                <button onclick="toggleComplete(${index})">Complete</button>
-                <button onclick="deleteTask(${index})">Delete</button>
-            `;
+        taskElement.innerHTML = `
+            <span>${task.title} - Due: ${task.dueDate}</span>
+            <button onclick="toggleComplete(${index})">Complete</button>
+            <button onclick="deleteTask(${index})">Delete</button>
+        `;
 
-            // Add the 'completed' class if the task is completed
-            if (task.completed) {
-                taskElement.classList.add('completed');
-            }
-
-            taskList.appendChild(taskElement);
+        // Add the 'completed' class if the task is completed
+        if (task.completed) {
+            taskElement.classList.add('completed');
         }
+
+        taskList.appendChild(taskElement);
     });
 
     // Find the task with the nearest due date
@@ -46,22 +43,19 @@ function renderTasks() {
 }
 
 function showCustomModal(message) {
-    // Add a check to show the modal only for incomplete tasks
-    if (!message.includes('completed')) {
-        const modalContainer = document.createElement('div');
-        modalContainer.classList.add('modal-container');
-        modalContainer.setAttribute('id', 'reminder-modal');
+    const modalContainer = document.createElement('div');
+    modalContainer.classList.add('modal-container');
+    modalContainer.setAttribute('id', 'reminder-modal');
 
-        const modalContent = document.createElement('div');
-        modalContent.classList.add('modal-content');
-        modalContent.innerHTML = `
-            <p>${message}</p>
-            <button onclick="removeReminder()">Okay</button>
-        `;
+    const modalContent = document.createElement('div');
+    modalContent.classList.add('modal-content');
+    modalContent.innerHTML = `
+        <p>${message}</p>
+        <button onclick="removeReminder()">Okay</button>
+    `;
 
-        modalContainer.appendChild(modalContent);
-        document.body.appendChild(modalContainer);
-    }
+    modalContainer.appendChild(modalContent);
+    document.body.appendChild(modalContainer);
 }
 
 function removeReminder() {
@@ -83,35 +77,32 @@ function addTask() {
         taskInput.value = '';
         dueDateInput.value = '';
         saveTasks();
+
+        // Reload the page to display the updated task list and the new reminder
+        renderTasks();
     } else {
         alert('Please enter both a task and a due date');
     }
-
-    // Render tasks after adding a new task
-    renderTasks();
 }
 
 function toggleComplete(index) {
     tasks[index].completed = !tasks[index].completed;
     saveTasks();
+    renderTasks();
 }
 
 function deleteTask(index) {
     tasks.splice(index, 1);
     saveTasks();
+    renderTasks();
 }
 
 function calculateDaysRemaining(dueDate) {
     const now = new Date();
     const dueDateTime = new Date(dueDate);
 
-    // Check if the task is already overdue
-    if (dueDateTime < now) {
-        return 0; // Task is overdue
-    }
-
-    // Calculate the difference in days, ignoring the time of day
-    const timeDifference = dueDateTime.setHours(0, 0, 0, 0) - now.setHours(0, 0, 0, 0);
+    // Calculate the difference in days
+    const timeDifference = dueDateTime.getTime() - now.getTime();
     const daysRemaining = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
 
     return daysRemaining;
