@@ -110,9 +110,9 @@ function calculateDaysRemaining(dueDate) {
         return 0; // Task is overdue
     }
 
-    // Calculate the difference in days
-    const timeDifference = dueDateTime.getTime() - now.getTime();
-    const daysRemaining = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+    // Calculate the difference in days, ignoring the time of day
+    const timeDifference = dueDateTime.setHours(0, 0, 0, 0) - now.setHours(0, 0, 0, 0);
+    const daysRemaining = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
 
     return daysRemaining;
 }
