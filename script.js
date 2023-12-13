@@ -1,4 +1,3 @@
-// script.js
 let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 
 function saveTasks() {
