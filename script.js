@@ -12,18 +12,13 @@ function renderTasks() {
     tasks.forEach((task, index) => {
         const taskElement = document.createElement('div');
         taskElement.classList.add('task');
-        
-        // Check if the task is not completed and the due date is within the next 5 days
-        if (!task.completed && isFutureDueDate(task.dueDate)) {
-            alert(`Reminder: ${task.title} is due in the next 5 days!`);
-        }
 
         taskElement.innerHTML = `
             <span>${task.title} - Due: ${task.dueDate}</span>
             <button onclick="toggleComplete(${index})">Complete</button>
             <button onclick="deleteTask(${index})">Delete</button>
         `;
-        
+
         // Add the 'completed' class if the task is completed
         if (task.completed) {
             taskElement.classList.add('completed');
@@ -45,6 +40,14 @@ function addTask() {
         taskInput.value = '';
         dueDateInput.value = '';
         saveTasks();
+
+        // Check if the new task is due in the next 5 days
+        const isDueInNext5Days = isFutureDueDate(dueDate);
+        if (isDueInNext5Days) {
+            alert(`Reminder: ${task} is due in the next 5 days!`);
+        }
+
+        renderTasks();
     } else {
         alert('Please enter both a task and a due date');
     }
@@ -53,21 +56,24 @@ function addTask() {
 function toggleComplete(index) {
     tasks[index].completed = !tasks[index].completed;
     saveTasks();
+    renderTasks();
 }
 
 function deleteTask(index) {
     tasks.splice(index, 1);
     saveTasks();
+    renderTasks();
 }
 
 function isFutureDueDate(dueDate) {
     const now = new Date();
     const dueDateTime = new Date(dueDate);
-    
+
     // Compare dueDateTime with a future time, e.g., 5 days from now
     const futureTime = new Date(now.getTime() + 5 * 24 * 60 * 60 * 1000); // 5 days in milliseconds
-    
+
     return dueDateTime <= futureTime;
 }
 
+// Call renderTasks when the page loads
 window.onload = renderTasks;
