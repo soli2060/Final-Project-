@@ -32,7 +32,20 @@ function renderTasks() {
 
     if (nearestTask) {
         const daysRemaining = calculateDaysRemaining(nearestTask.dueDate);
-        alert(`Next task: ${nearestTask.title} is due in ${daysRemaining} days!`);
+        const reminderMessage = `Next task: ${nearestTask.title} is due in ${daysRemaining} days!`;
+
+        // Display an alert with the calculated days remaining
+        const userResponse = prompt(reminderMessage + "\n\nType 'Okay' to remove the reminder:");
+
+        // Remove the reminder immediately if the user types 'Okay'
+        if (userResponse && userResponse.toLowerCase() === 'okay') {
+            alert('Reminder removed!');
+        } else {
+            // Automatically remove the reminder after 2 seconds (2000 milliseconds)
+            setTimeout(() => {
+                alert('Reminder removed!');
+            }, 2000);
+        }
     }
 }
 
