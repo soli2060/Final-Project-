@@ -13,9 +13,9 @@ function renderTasks() {
         const taskElement = document.createElement('div');
         taskElement.classList.add('task');
         
-        // Check if the task is not completed and the due date is in the future
+        // Check if the task is not completed and the due date is within the next 5 days
         if (!task.completed && isFutureDueDate(task.dueDate)) {
-            alert(`Reminder: ${task.title} is due in the future!`);
+            alert(`Reminder: ${task.title} is due in the next 5 days!`);
         }
 
         taskElement.innerHTML = `
@@ -64,10 +64,10 @@ function isFutureDueDate(dueDate) {
     const now = new Date();
     const dueDateTime = new Date(dueDate);
     
-    // Compare dueDateTime with a future time, e.g., 10 minutes from now
-    const futureTime = new Date(now.getTime() + 10 * 60000); // 10 minutes in milliseconds
+    // Compare dueDateTime with a future time, e.g., 5 days from now
+    const futureTime = new Date(now.getTime() + 5 * 24 * 60 * 60 * 1000); // 5 days in milliseconds
     
-    return dueDateTime > futureTime;
+    return dueDateTime <= futureTime;
 }
 
 window.onload = renderTasks;
