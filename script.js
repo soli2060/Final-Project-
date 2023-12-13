@@ -30,6 +30,9 @@ function renderTasks() {
     // Find the task with the nearest due date
     const nearestTask = findNearestTask();
 
+    // Close any existing reminder modal
+    removeReminder();
+
     if (nearestTask) {
         const daysRemaining = calculateDaysRemaining(nearestTask.dueDate);
         const reminderMessage = `Next task: ${nearestTask.title} is due in ${daysRemaining} days!`;
