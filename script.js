@@ -34,18 +34,30 @@ function renderTasks() {
         const daysRemaining = calculateDaysRemaining(nearestTask.dueDate);
         const reminderMessage = `Next task: ${nearestTask.title} is due in ${daysRemaining} days!`;
 
-        // Display an alert with the calculated days remaining
-        const userResponse = prompt(reminderMessage + "\n\nType 'Okay' to remove the reminder:");
+        // Display a custom modal with the calculated days remaining
+        showCustomModal(reminderMessage);
+    }
+}
 
-        // Remove the reminder immediately if the user types 'Okay'
-        if (userResponse && userResponse.toLowerCase() === 'okay') {
-            alert('Reminder removed!');
-        } else {
-            // Automatically remove the reminder after 2 seconds (2000 milliseconds)
-            setTimeout(() => {
-                alert('Reminder removed!');
-            }, 2000);
-        }
+function showCustomModal(message) {
+    const modalContainer = document.createElement('div');
+    modalContainer.classList.add('modal-container');
+
+    const modalContent = document.createElement('div');
+    modalContent.classList.add('modal-content');
+    modalContent.innerHTML = `
+        <p>${message}</p>
+        <button onclick="removeReminder()">Okay</button>
+    `;
+
+    modalContainer.appendChild(modalContent);
+    document.body.appendChild(modalContainer);
+}
+
+function removeReminder() {
+    const modalContainer = document.querySelector('.modal-container');
+    if (modalContainer) {
+        modalContainer.remove();
     }
 }
 
