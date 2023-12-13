@@ -15,7 +15,7 @@ function renderTasks() {
         
         // Check if the task is not completed and the due date is in the future
         if (!task.completed && isFutureDueDate(task.dueDate)) {
-            alert(`Reminder: ${task.title} is due now!`);
+            alert(`Reminder: ${task.title} is due in the future!`);
         }
 
         taskElement.innerHTML = `
@@ -63,7 +63,11 @@ function deleteTask(index) {
 function isFutureDueDate(dueDate) {
     const now = new Date();
     const dueDateTime = new Date(dueDate);
-    return dueDateTime > now;
+    
+    // Compare dueDateTime with a future time, e.g., 10 minutes from now
+    const futureTime = new Date(now.getTime() + 10 * 60000); // 10 minutes in milliseconds
+    
+    return dueDateTime > futureTime;
 }
 
 window.onload = renderTasks;
