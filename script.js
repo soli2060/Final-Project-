@@ -10,16 +10,27 @@ function renderTasks() {
 }
 
 function showReminder(task, daysRemaining) {
-  const reminderModal = document.getElementById('reminder-modal');
-  const reminderMessage = document.getElementById('reminder-message');
+  // Create a reminder modal dynamically
+  const reminderModal = document.createElement('div');
+  reminderModal.classList.add('modal-container');
 
-  reminderMessage.textContent = `Task "${task}" added! It's due in ${daysRemaining} days.`;
-  reminderModal.style.display = 'block';
+  const reminderContent = document.createElement('div');
+  reminderContent.classList.add('modal-content');
+
+  reminderContent.innerHTML = `
+    <p>Task "${task}" added! It's due in ${daysRemaining} days.</p>
+    <button onclick="closeReminder()">Okay</button>
+  `;
+
+  reminderModal.appendChild(reminderContent);
+  document.body.appendChild(reminderModal);
 }
 
 function closeReminder() {
-  const reminderModal = document.getElementById('reminder-modal');
-  reminderModal.style.display = 'none';
+  const reminderModal = document.querySelector('.modal-container');
+  if (reminderModal) {
+    reminderModal.remove();
+  }
 }
 
 function addTask() {
