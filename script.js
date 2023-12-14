@@ -46,37 +46,28 @@ function renderTasks() {
 
     taskList.appendChild(taskItem);
   });
-
-  // Show the reminder if there are tasks due within 24 hours
-  showReminderForTasksDueWithin24Hours();
-
-  // Hide the reminder after 5 seconds
-  setTimeout(() => {
-    hideReminder();
-  }, 5000);
 }
 
-function showReminderForTasksDueWithin24Hours() {
-  const currentDate = new Date();
-  const tasksDueWithin24Hours = tasks.filter(task => {
-    const dueDate = new Date(task.dueDate);
-    const timeDifference = dueDate - currentDate;
-    const hoursRemaining = timeDifference / (1000 * 60 * 60);
-    return hoursRemaining >= 0 && hoursRemaining <= 24 && !task.completed;
-  });
+function showCustomModal(message) {
+  const modalContainer = document.createElement('div');
+  modalContainer.classList.add('modal-container');
 
-  if (tasksDueWithin24Hours.length > 0) {
-    const reminderMessage = tasksDueWithin24Hours.map(task => {
-      return `Task "${task.task}" is due in less than 24 hours.`;
-    }).join('\n');
+  const modalContent = document.createElement('div');
+  modalContent.classList.add('modal-content');
+  modalContent.innerHTML = `
+    <p>${message}</p>
+    <button onclick="removeReminder()">Okay</button>
+  `;
 
-    alert(reminderMessage);
+  modalContainer.appendChild(modalContent);
+  document.body.appendChild(modalContainer);
+}
+
+function removeReminder() {
+  const modalContainer = document.querySelector('.modal-container');
+  if (modalContainer) {
+    modalContainer.remove();
   }
-}
-
-function hideReminder() {
-  // Hide the reminder by clearing the alert
-  window.alert('');
 }
 
 function addTask() {
@@ -90,6 +81,8 @@ function addTask() {
     taskInput.value = '';
     dueDateInput.value = '';
     saveTasks();
+    // Show the reminder
+    showCustomModal(`Task "${task}" added! It's due in ${daysRemaining} days.`);
   }
 }
 
