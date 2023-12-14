@@ -2,19 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Website</title>
-    <style>
-        /* Add your CSS styles here */
-    </style>
+    <meta viewport="content-width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <input type="text" id="taskInput" placeholder="Enter a task">
-    <input type="date" id="taskDueDate">
-    <button onclick="addTask()">Add Task</button>
-
-    <div id="taskList"></div>
-
+    <div class="container">
+        <header>
+            <h1>Task Manager</h1>
+        </header>
+        <main>
+            <div class="task-input">
+                <input type="text" id="taskInput" placeholder="Enter a task">
+                <input type="date" id="taskDueDate">
+                <button onclick="addTask()">Add Task</button>
+            </div>
+            <div id="taskList" class="task-list"></div>
+        </main>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
