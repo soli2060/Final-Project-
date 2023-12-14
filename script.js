@@ -50,6 +50,9 @@ function renderTasks() {
   // Show the reminder for the latest task
   if (tasks.length > 0) {
     const latestTask = tasks[tasks.length - 1].task;
+    const dueDate = new Date(tasks[tasks.length - 1].dueDate);
+    const currentDate = new Date();
+    const daysRemaining = Math.ceil((dueDate - currentDate) / (1000 * 60 * 60 * 24));
     alert(`Task "${latestTask}" added! It's due in ${daysRemaining} days.`);
   }
 }
