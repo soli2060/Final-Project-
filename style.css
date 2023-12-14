@@ -3,19 +3,16 @@ body, html {
     padding: 0;
     font-family: 'Roboto', sans-serif;
     background: #f4f4f4;
-    height: 100vh; /* Use viewport height for full height */
+    min-height: 100vh; /* Ensure the body takes at least the viewport height */
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center; /* Center align items horizontally */
 }
 
 .container {
-    width: 90%; /* Use a percentage of the viewport width */
-    max-width: 800px; /* Adjust this value as needed */
+    width: 100%; /* Container takes the full width */
     padding: 20px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    background: white; /* Optional: Adds background to the container */
-    border-radius: 10px; /* Optional: Rounds the corners of the container */
+    box-sizing: border-box; /* Include padding in the width calculation */
 }
 
 header {
@@ -24,13 +21,14 @@ header {
 }
 
 .task-input {
+    width: 100%; /* Ensure input section takes full width */
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
 }
 
 .task-input input[type="text"], .task-input input[type="date"] {
-    flex: 1;
+    flex-grow: 1; /* Inputs take up available space */
     margin-right: 10px;
     padding: 10px;
     border: 1px solid #ddd;
@@ -52,14 +50,15 @@ header {
 }
 
 .task-list div {
-    background: #f9f9f9; /* Slightly different background for tasks */
+    width: 100%; /* Ensure task list items take full width */
+    background: #f9f9f9;
     padding: 10px;
     margin-bottom: 10px;
     border-radius: 4px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
-/* Responsive design adjustments */
+/* Responsive design adjustments for smaller screens */
 @media (max-width: 768px) {
     .task-input {
         flex-direction: column;
