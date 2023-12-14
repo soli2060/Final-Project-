@@ -1,148 +1,77 @@
-/* style.css */
-body {
-    font-family: Arial, sans-serif;
+body, html {
     margin: 0;
     padding: 0;
-    background-color: #d8f6ec;
+    font-family: 'Roboto', sans-serif;
+    background: #f4f4f4;
+    height: 100vh; /* Use viewport height for full height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    width: 90%; /* Use a percentage of the viewport width */
+    max-width: 800px; /* Adjust this value as needed */
+    padding: 20px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    background: white; /* Optional: Adds background to the container */
+    border-radius: 10px; /* Optional: Rounds the corners of the container */
 }
 
 header {
-    background-color: rgb(96, 96, 157);
-    color: #f1dfdf;
     text-align: center;
-    padding: 1rem 0;
-}
-
-main {
-    padding: 20px;
-}
-
-#task-input {
-    padding: 10px;
-    width: 70%;
-}
-
-#task-form input[type=datetime-local] {
-    padding: 10px;
-    margin-left: 5px;
-}
-
-button {
-    padding: 10px;
-    background-color: rgb(127, 127, 224);
-    color: rgb(31, 63, 34);
-    border: none;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: rgb(240, 240, 245);
-}
-
-#tasks-list {
-    margin-top: 20px;
-}
-
-.task {
-    background: rgb(236, 236, 240);
-    padding: 20px;
     margin-bottom: 20px;
-    border-radius: 8px;
+}
+
+.task-input {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    transition: all 0.3s ease;
-}
-
-.task:hover {
-    background-color: #636b6e;
-}
-
-.task.completed {
-    text-decoration: line-through;
-    opacity: 0.6;
-}
-
-.task button {
-    border: none;
-    background: none;
-    cursor: pointer;
-}
-
-.task button:hover {
-    color: rgb(222, 23, 23);
-}
-/* style.css */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #d8f6ec;
-}
-
-header {
-    background-color: rgb(96, 96, 157);
-    color: #f1dfdf;
-    text-align: center;
-    padding: 1rem 0;
-}
-
-main {
-    padding: 20px;
-}
-
-#task-input {
-    padding: 10px;
-    width: 70%;
-}
-
-#task-form input[type=datetime-local] {
-    padding: 10px;
-    margin-left: 5px;
-}
-
-button {
-    padding: 10px;
-    background-color: rgb(127, 127, 224);
-    color: rgb(31, 63, 34);
-    border: none;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: rgb(240, 240, 245);
-}
-
-#tasks-list {
-    margin-top: 20px;
-}
-
-.task {
-    background: rgb(236, 236, 240);
-    padding: 20px;
     margin-bottom: 20px;
-    border-radius: 8px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transition: all 0.3s ease;
 }
 
-.task:hover {
-    background-color: #636b6e;
+.task-input input[type="text"], .task-input input[type="date"] {
+    flex: 1;
+    margin-right: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
 }
 
-.task.completed {
-    text-decoration: line-through;
-    opacity: 0.6;
-}
-
-.task button {
+.task-input button {
+    padding: 10px 20px;
     border: none;
-    background: none;
+    border-radius: 4px;
+    background: #5cb85c;
+    color: white;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-.task button:hover {
-    color: rgb(222, 23, 23);
+.task-input button:hover {
+    background: #4cae4c;
+}
+
+.task-list div {
+    background: #f9f9f9; /* Slightly different background for tasks */
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* Responsive design adjustments */
+@media (max-width: 768px) {
+    .task-input {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .task-input input[type="text"], .task-input input[type="date"], .task-input button {
+        margin-bottom: 10px;
+        margin-right: 0;
+    }
+
+    .task-input button {
+        width: 100%;
+    }
 }
