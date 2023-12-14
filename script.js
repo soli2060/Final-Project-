@@ -3,25 +3,21 @@ let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 function saveTasks() {
     localStorage.setItem('tasks', JSON.stringify(tasks));
     renderTasks();
+    checkDueTasks();
 }
 
 function renderTasks() {
     const taskList = document.getElementById('taskList');
     taskList.innerHTML = '';
-    tasks.forEach((task) => {
+    tasks.forEach((task, index) => {
         const taskDiv = document.createElement('div');
-        taskDiv.textContent = `${task.description} - Due: ${task.dueDate}`;
+        taskDiv.innerHTML = `
+            <span>${task.description} - Due: ${task.dueDate}</span>
+            <button onclick="toggleComplete(${index})">${task.completed ? 'Completed' : 'Complete'}</button>
+            <button onclick="deleteTask(${index})">Delete</button>
+        `;
+        taskDiv.className = task.completed ? 'task-completed' : '';
         taskList.appendChild(taskDiv);
-    });
-    checkDueTasks();
-}
-
-function checkDueTasks() {
-    const today = new Date().toISOString().split('T')[0];
-    tasks.forEach(task => {
-        if (!task.completed && new Date(task.dueDate) <= new Date(today)) {
-            showCustomModal(`Task ${task.description} is due now!`);
-        }
     });
 }
 
@@ -31,7 +27,7 @@ function addTask() {
     const newTask = {
         description: taskInput.value.trim(),
         dueDate: taskDueDate.value,
-        completed: false // You can update this field when the task is completed
+        completed: false
     };
     if (newTask.description && newTask.dueDate) {
         tasks.push(newTask);
@@ -39,14 +35,30 @@ function addTask() {
         taskInput.value = '';
         taskDueDate.value = '';
     } else {
-        showCustomModal('Please enter a task and due date');
+        alert('Please enter a task and due date');
     }
 }
 
-function showCustomModal(message) {
-    // Modal implementation here
+function toggleComplete(index) {
+    tasks[index].completed = !tasks[index].completed;
+    saveTasks();
 }
 
-// Other functions here
+function deleteTask(index) {
+    tasks.splice(index, 1);
+    saveTasks();
+}
 
-window.onload = renderTasks;
+function checkDueTasks() {
+    const today = new Date().toISOString().split('T')[0];
+    tasks.forEach(task => {
+        if (!task.completed && new Date(task.dueDate) <= new Date(today)) {
+            alert(`Task ${task.description} is due now!`);
+        }
+    });
+}
+
+window.onload = () => {
+    renderTasks();
+    checkDueTasks();
+};
