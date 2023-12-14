@@ -48,22 +48,6 @@ function renderTasks() {
   });
 }
 
-function showCustomModal(message) {
-  const modalContainer = document.getElementById('reminder-modal');
-  modalContainer.style.display = 'flex';
-
-  const modalContent = modalContainer.querySelector('.modal-content');
-  modalContent.innerHTML = `
-    <p>${message}</p>
-    <button onclick="removeReminder()">Okay</button>
-  `;
-}
-
-function removeReminder() {
-  const modalContainer = document.getElementById('reminder-modal');
-  modalContainer.style.display = 'none';
-}
-
 function addTask() {
   const taskInput = document.querySelector('.task-input input[type="text"]');
   const dueDateInput = document.querySelector('.task-input input[type="date"]');
@@ -75,7 +59,14 @@ function addTask() {
     taskInput.value = '';
     dueDateInput.value = '';
     saveTasks();
-    showCustomModal("Your task has been added!");
+
+    // Calculate days remaining for the newly added task
+    const dueDateObj = new Date(dueDate);
+    const currentDate = new Date();
+    const daysRemaining = Math.ceil((dueDateObj - currentDate) / (1000 * 60 * 60 * 24));
+
+    // Show a reminder as an alert
+    alert(`Task added! It's due in ${daysRemaining} days.`);
   }
 }
 
