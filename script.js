@@ -49,25 +49,15 @@ function renderTasks() {
 }
 
 function showCustomModal(message) {
-  const modalContainer = document.createElement('div');
-  modalContainer.classList.add('modal-container');
-
-  const modalContent = document.createElement('div');
-  modalContent.classList.add('modal-content');
-  modalContent.innerHTML = `
-    <p>${message}</p>
-    <button onclick="removeReminder()">Okay</button>
-  `;
-
-  modalContainer.appendChild(modalContent);
-  document.body.appendChild(modalContainer);
+  const modalContainer = document.getElementById('reminder-modal');
+  const modalContent = document.getElementById('reminder-content');
+  modalContent.innerHTML = `<p>${message}</p>`;
+  modalContainer.style.display = 'flex';
 }
 
 function removeReminder() {
-  const modalContainer = document.querySelector('.modal-container');
-  if (modalContainer) {
-    modalContainer.remove();
-  }
+  const modalContainer = document.getElementById('reminder-modal');
+  modalContainer.style.display = 'none';
 }
 
 function addTask() {
@@ -81,7 +71,14 @@ function addTask() {
     taskInput.value = '';
     dueDateInput.value = '';
     saveTasks();
-    // Show the reminder after adding a task
+
+    // Calculate days remaining
+    const dueDateObj = new Date(dueDate);
+    const currentDate = new Date();
+    const timeDifference = dueDateObj - currentDate;
+    const daysRemaining = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+
+    // Show the reminder
     showCustomModal(`Task "${task}" added! It's due in ${daysRemaining} days.`);
   }
 }
