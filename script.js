@@ -30,12 +30,7 @@ function renderTasks() {
     // Find the task with the nearest due date
     const nearestTask = findNearestTask();
 
-    // Close any existing reminder modal if the task is completed
-    if (nearestTask && nearestTask.completed) {
-        removeReminder();
-    }
-
-    // Display a new reminder if there is a task and it's not completed
+    // Display a reminder on page load if there is a task and it's not completed
     if (nearestTask && !nearestTask.completed) {
         const daysRemaining = calculateDaysRemaining(nearestTask.dueDate);
         const reminderMessage = `Next task: ${nearestTask.title} is due in ${daysRemaining} days!`;
@@ -47,10 +42,6 @@ function renderTasks() {
 
 function showCustomModal(message) {
     alert(message);  // For simplicity, using alert instead of a modal
-}
-
-function removeReminder() {
-    // Implement the removal of the reminder here, e.g., close the alert
 }
 
 function addTask() {
@@ -66,7 +57,7 @@ function addTask() {
         dueDateInput.value = '';
         saveTasks();
 
-        // Reload the page to display the updated task list and the new reminder
+        // Display a reminder on page load after adding a task
         renderTasks();
     } else {
         alert('Please enter both a task and a due date');
