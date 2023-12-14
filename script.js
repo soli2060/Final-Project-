@@ -6,41 +6,66 @@ function saveTasks() {
 }
 
 function renderTasks() {
-  // Your renderTasks function code here
-}
+  const taskList = document.getElementById('task-list');
+  taskList.innerHTML = '';
 
-function showReminder(task, daysRemaining) {
-  // Create a reminder modal dynamically
-  const reminderModal = document.createElement('div');
-  reminderModal.classList.add('modal-container');
+  tasks.forEach((task, index) => {
+    const taskItem = document.createElement('div');
+    taskItem.classList.add('task-item');
+    if (task.completed) {
+      taskItem.classList.add('completed');
+    }
 
-  const reminderContent = document.createElement('div');
-  reminderContent.classList.add('modal-content');
+    const taskText = document.createElement('div');
+    taskText.textContent = task.task;
 
-  reminderContent.innerHTML = `
-    <p>Task "${task}" added! It's due in ${daysRemaining} days.</p>
-    <button onclick="closeReminder()">Okay</button>
-  `;
+    const taskDueDate = document.createElement('div');
+    const dueDate = new Date(task.dueDate);
+    const currentDate = new Date();
+    const daysRemaining = Math.ceil((dueDate - currentDate) / (1000 * 60 * 60 * 24));
+    taskDueDate.textContent = `Due in ${daysRemaining} days`;
 
-  reminderModal.appendChild(reminderContent);
-  document.body.appendChild(reminderModal);
-}
+    const completeButton = document.createElement('button');
+    completeButton.textContent = 'Complete';
+    completeButton.addEventListener('click', () => {
+      tasks[index].completed = true;
+      saveTasks();
+    });
 
-function closeReminder() {
-  const reminderModal = document.querySelector('.modal-container');
-  if (reminderModal) {
-    reminderModal.remove();
-  }
+    const deleteButton = document.createElement('button');
+    deleteButton.textContent = 'Delete';
+    deleteButton.addEventListener('click', () => {
+      tasks.splice(index, 1);
+      saveTasks();
+    });
+
+    taskItem.appendChild(taskText);
+    taskItem.appendChild(taskDueDate);
+    taskItem.appendChild(completeButton);
+    taskItem.appendChild(deleteButton);
+
+    taskList.appendChild(taskItem);
+  });
 }
 
 function addTask() {
-  // Your addTask function code here
+  const taskInput = document.querySelector('.task-input input[type="text"]');
+  const dueDateInput = document.querySelector('.task-input input[type="date"]');
+  const task = taskInput.value;
+  const dueDate = dueDateInput.value;
 
-  // After adding the task, show the reminder
-  const currentDate = new Date();
-  const taskDueDate = new Date(dueDate);
-  const daysRemaining = Math.ceil((taskDueDate - currentDate) / (1000 * 60 * 60 * 24));
-  showReminder(task, daysRemaining);
+  if (task.trim() !== '') {
+    tasks.push({ task, dueDate, completed: false });
+    taskInput.value = '';
+    dueDateInput.value = '';
+    saveTasks();
+
+    // Show a reminder as an alert with the task name and due date
+    const dueDateObj = new Date(dueDate);
+    const currentDate = new Date();
+    const daysRemaining = Math.ceil((dueDateObj - currentDate) / (1000 * 60 * 60 * 24));
+    alert(`Task "${task}" added! It's due in ${daysRemaining} days.`);
+  }
 }
 
 // Call renderTasks when the page loads
