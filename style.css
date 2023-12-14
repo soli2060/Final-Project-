@@ -3,21 +3,15 @@ body, html {
     padding: 0;
     font-family: Arial, sans-serif;
     background-color: #e0f7fa; /* Soft teal background for the entire page */
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
     min-height: 100vh;
 }
 
 .container {
     width: 100%;
-    max-width: 1000px;
-    margin: auto;
     padding: 20px;
     box-sizing: border-box;
     background-color: #ffffff; /* White background for contrast */
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    border-radius: 8px;
 }
 
 header {
@@ -27,18 +21,20 @@ header {
 }
 
 .task-input {
+    width: 100%; /* Full width of the container */
     display: flex;
+    align-items: center;
     gap: 10px;
     margin-bottom: 20px;
 }
 
 .task-input input[type="text"], 
 .task-input input[type="date"] {
-    width: 100%; /* Full width for inputs */
-    padding: 15px; /* Larger padding for bigger input box */
+    flex-grow: 1; /* Allows input fields to grow and fill available space */
+    padding: 15px;
     border-radius: 4px;
-    border: 1px solid #b2dfdb; /* Light teal border */
-    font-size: 1.1rem; /* Larger font size */
+    border: 1px solid #b2dfdb;
+    font-size: 1.1rem;
 }
 
 .task-input button {
