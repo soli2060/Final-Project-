@@ -3,7 +3,6 @@ let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 function saveTasks() {
     localStorage.setItem('tasks', JSON.stringify(tasks));
     renderTasks();
-    checkDueTasks();
 }
 
 function renderTasks() {
@@ -11,12 +10,12 @@ function renderTasks() {
     taskList.innerHTML = '';
     tasks.forEach((task, index) => {
         const taskDiv = document.createElement('div');
+        taskDiv.className = task.completed ? 'task-completed' : 'task-item';
         taskDiv.innerHTML = `
             <span>${task.description} - Due: ${task.dueDate}</span>
-            <button onclick="toggleComplete(${index})">${task.completed ? 'Completed' : 'Complete'}</button>
+            <button onclick="toggleComplete(${index})">${task.completed ? 'Mark Incomplete' : 'Complete'}</button>
             <button onclick="deleteTask(${index})">Delete</button>
         `;
-        taskDiv.className = task.completed ? 'task-completed' : '';
         taskList.appendChild(taskDiv);
     });
 }
@@ -32,6 +31,7 @@ function addTask() {
     if (newTask.description && newTask.dueDate) {
         tasks.push(newTask);
         saveTasks();
+        checkDueTasks();
         taskInput.value = '';
         taskDueDate.value = '';
     } else {
@@ -51,14 +51,26 @@ function deleteTask(index) {
 
 function checkDueTasks() {
     const today = new Date().toISOString().split('T')[0];
-    tasks.forEach(task => {
-        if (!task.completed && new Date(task.dueDate) <= new Date(today)) {
-            alert(`Task ${task.description} is due now!`);
-        }
-    });
+    let reminders = tasks.filter(task => !task.completed && task.dueDate === today);
+    if (reminders.length > 0) {
+        let reminderText = reminders.map(task => `Task '${task.description}' is due today!`).join('\n');
+        showModal(reminderText);
+    }
+}
+
+function showModal(text) {
+    const modal = document.getElementById('modal');
+    const modalText = document.getElementById('modalText');
+    modalText.innerText = text;
+    modal.style.display = 'block';
+}
+
+function closeModal() {
+    const modal = document.getElementById('modal');
+    modal.style.display = 'none';
 }
 
 window.onload = () => {
     renderTasks();
-    checkDueTasks();
+    checkDueTasks(); // Check for reminders on page load
 };
