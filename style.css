@@ -1,69 +1,91 @@
-body, html {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    background-color: #e0f7fa; /* Soft teal background for the entire page */
-    min-height: 100vh;
+let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+function saveTasks() {
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+  renderTasks();
 }
 
-.top-box {
-    width: 100%;
-    background-color: #ffffff; /* White background for the top box */
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+function renderTasks() {
+  const taskList = document.getElementById('task-list');
+  taskList.innerHTML = '';
+
+  tasks.forEach((task, index) => {
+    const taskItem = document.createElement('div');
+    taskItem.classList.add('task-item');
+    if (task.completed) {
+      taskItem.classList.add('completed');
+    }
+
+    const taskText = document.createElement('div');
+    taskText.textContent = task.task;
+
+    const taskDueDate = document.createElement('div');
+    const dueDate = new Date(task.dueDate);
+    const currentDate = new Date();
+    const daysRemaining = Math.ceil((dueDate - currentDate) / (1000 * 60 * 60 * 24));
+    taskDueDate.textContent = `Due in ${daysRemaining} days`;
+
+    const completeButton = document.createElement('button');
+    completeButton.textContent = 'Complete';
+    completeButton.addEventListener('click', () => {
+      tasks[index].completed = true;
+      saveTasks();
+    });
+
+    const deleteButton = document.createElement('button');
+    deleteButton.textContent = 'Delete';
+    deleteButton.addEventListener('click', () => {
+      tasks.splice(index, 1);
+      saveTasks();
+    });
+
+    taskItem.appendChild(taskText);
+    taskItem.appendChild(taskDueDate);
+    taskItem.appendChild(completeButton);
+    taskItem.appendChild(deleteButton);
+
+    taskList.appendChild(taskItem);
+  });
+
+  // Show the reminder
+  showCustomModal("Your task has been added!");
 }
 
-.container {
-    max-width: 1000px; /* Limit the container width if needed */
-    margin: 0 auto; /* Center the container horizontally */
-    padding: 20px;
-    box-sizing: border-box;
+function showCustomModal(message) {
+  const modalContainer = document.createElement('div');
+  modalContainer.classList.add('modal-container');
+
+  const modalContent = document.createElement('div');
+  modalContent.classList.add('modal-content');
+  modalContent.innerHTML = `
+    <p>${message}</p>
+    <button onclick="removeReminder()">Okay</button>
+  `;
+
+  modalContainer.appendChild(modalContent);
+  document.body.appendChild(modalContainer);
 }
 
-header {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #00695c; /* Dark teal for the headline */
+function removeReminder() {
+  const modalContainer = document.querySelector('.modal-container');
+  if (modalContainer) {
+    modalContainer.remove();
+  }
 }
 
-.task-input {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 20px;
+function addTask() {
+  const taskInput = document.querySelector('.task-input input[type="text"]');
+  const dueDateInput = document.querySelector('.task-input input[type="date"]');
+  const task = taskInput.value;
+  const dueDate = dueDateInput.value;
+
+  if (task.trim() !== '') {
+    tasks.push({ task, dueDate, completed: false });
+    taskInput.value = '';
+    dueDateInput.value = '';
+    saveTasks();
+  }
 }
 
-.task-input input[type="text"], 
-.task-input input[type="date"] {
-    flex-grow: 1;
-    padding: 15px;
-    border-radius: 4px;
-    border: 1px solid #b2dfdb;
-    font-size: 1.1rem;
-}
-
-.task-input button {
-    padding: 15px 20px;
-    border: none;
-    border-radius: 4px;
-    background-color: #26a69a;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.task-input button:hover {
-    background-color: #00897b;
-}
-
-.task-list div {
-    background-color: #f0f4c3;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 4px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.task-completed {
-    text-decoration: line-through;
-    color: #9e9e9e;
-}
+// Call renderTasks when the page loads
+window.onload = renderTasks;
