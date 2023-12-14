@@ -30,6 +30,7 @@ function renderTasks() {
     completeButton.addEventListener('click', () => {
       tasks[index].completed = true;
       saveTasks();
+      renderTasks(); // Update the task list to reflect completed task
     });
 
     const deleteButton = document.createElement('button');
@@ -37,6 +38,7 @@ function renderTasks() {
     deleteButton.addEventListener('click', () => {
       tasks.splice(index, 1);
       saveTasks();
+      renderTasks(); // Update the task list after deleting a task
     });
 
     taskItem.appendChild(taskText);
@@ -60,11 +62,15 @@ function addTask() {
     dueDateInput.value = '';
     saveTasks();
 
-    // Show a reminder as an alert with the task name and due date
+    // Calculate days remaining for the added task
     const dueDateObj = new Date(dueDate);
     const currentDate = new Date();
     const daysRemaining = Math.ceil((dueDateObj - currentDate) / (1000 * 60 * 60 * 24));
-    alert(`Task "${task}" added! It's due in ${daysRemaining} days.`);
+    
+    // Show a reminder as an alert with the task name and due date if the task is not completed
+    if (!tasks[tasks.length - 1].completed) {
+      alert(`Task "${task}" added! It's due in ${daysRemaining} days.`);
+    }
   }
 }
 
