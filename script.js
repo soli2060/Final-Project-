@@ -27,18 +27,22 @@ function renderTasks() {
         taskList.appendChild(taskElement);
     });
 
-    // Remove any existing reminder before displaying a new one
-    removeReminder();
-
     // Find the task with the nearest due date
     const nearestTask = findNearestTask();
 
-    if (nearestTask && !nearestTask.completed) {
+    // Close any existing reminder modal
+    removeReminder();
+
+    if (nearestTask && !nearestTask.completed && !nearestTask.reminderShown) {
         const daysRemaining = calculateDaysRemaining(nearestTask.dueDate);
         const reminderMessage = `Next task: ${nearestTask.title} is due in ${daysRemaining} days!`;
 
         // Display a custom modal with the calculated days remaining
         showCustomModal(reminderMessage);
+
+        // Set a flag to indicate that the reminder has been shown for this task
+        nearestTask.reminderShown = true;
+        saveTasks();
     }
 }
 
@@ -73,16 +77,16 @@ function addTask() {
     const dueDate = dueDateInput.value;
 
     if (task && dueDate) {
-        tasks.push({ title: task, dueDate, completed: false });
+        tasks.push({ title: task, dueDate, completed: false, reminderShown: false });
         taskInput.value = '';
         dueDateInput.value = '';
         saveTasks();
+
+        // Reload the page to display the updated task list and the new reminder
+        renderTasks();
     } else {
         alert('Please enter both a task and a due date');
     }
-
-    // Reload the page to display the updated task list and show the new reminder
-    renderTasks();
 }
 
 function toggleComplete(index) {
