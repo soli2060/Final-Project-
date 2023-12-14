@@ -23,13 +23,16 @@
 /* Additional styles for the task list */
 .task-input {
   margin-top: 20px;
+  background-color: lightgreen; /* Light green background for the "Add Task" section */
+  padding: 20px; /* Increased padding for the "Add Task" section */
+  border-radius: 10px; /* Rounded corners for the "Add Task" section */
 }
 
 .task-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px;
+  padding: 15px; /* Increased padding for task items */
   margin-top: 10px;
   background-color: lightblue;
   border-radius: 5px;
@@ -41,14 +44,14 @@
 
 /* Additional styles for the whole page */
 body {
-  background-color: lightgreen;
+  background-color: lightgreen; /* Light green background for the whole page */
   margin: 0; /* Remove default margin */
 }
 
 h1 {
   background-color: blue;
   color: white;
-  padding: 10px;
+  padding: 20px; /* Increased padding for the headline */
   text-align: center;
   margin: 0;
 }
