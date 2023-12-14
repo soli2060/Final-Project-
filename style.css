@@ -6,13 +6,17 @@ body, html {
     min-height: 100vh;
 }
 
-.container {
+.top-box {
     width: 100%;
-    max-width: 100%; /* Ensure the container spans the full width */
+    background-color: #ffffff; /* White background for the top box */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.container {
+    max-width: 1000px; /* Limit the container width if needed */
+    margin: 0 auto; /* Center the container horizontally */
     padding: 20px;
     box-sizing: border-box;
-    background-color: #ffffff; /* White background for the container */
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
 }
 
 header {
