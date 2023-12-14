@@ -10,9 +10,11 @@ body, html {
 }
 
 .container {
-    width: 90%;
-    max-width: 800px;
+    width: 100%;
+    max-width: 800px; /* Adjust as necessary for optimal width */
     margin: auto;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
 header {
@@ -21,20 +23,31 @@ header {
 }
 
 .task-input {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr 1fr auto; /* Adjust the distribution of input fields and button */
+    gap: 10px;
     margin-bottom: 20px;
 }
 
 .task-input input, .task-input button {
-    padding: 10px;
-    margin-right: 10px;
+    padding: 15px; /* Increased padding for better visibility */
     border-radius: 5px;
     border: 1px solid #ddd;
 }
 
+.task-input input {
+    font-size: 1rem; /* Larger font size for better readability */
+}
+
 .task-input button {
+    background-color: #4CAF50; /* A more vibrant button color */
+    color: white;
     cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.task-input button:hover {
+    background-color: #45a049;
 }
 
 .task-list div {
@@ -47,4 +60,11 @@ header {
 
 .task-completed {
     text-decoration: line-through;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .task-input {
+        grid-template-columns: 1fr; /* Stack inputs and button on smaller screens */
+    }
 }
