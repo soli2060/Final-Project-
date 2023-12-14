@@ -1,76 +1,54 @@
-/* Styles for the entire page */
-body {
-  background-color: lightgreen;
-  margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
-}
+/* Your existing styles here */
 
-/* Styles for the header */
-h1 {
-  background-color: blue;
-  color: white;
-  text-align: center;
-  padding: 20px;
-  margin: 0;
-}
-
-/* Styles for the task input section */
-.task-input {
-  background-color: white;
-  padding: 20px;
-  border-radius: 5px;
-  margin: 20px auto;
-  width: 70%;
-  display: flex;
-  justify-content: space-between;
+/* Additional styles for the reminder modal */
+.modal-container {
+  display: none;
   align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
 }
 
-.task-input input[type="text"],
-.task-input input[type="date"],
-.task-input button {
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  margin-right: 10px;
-}
-
-.task-input input[type="text"] {
-  flex-grow: 2;
-}
-
-.task-input input[type="date"] {
-  flex-grow: 1;
-}
-
-.task-input button {
-  background-color: blue;
-  color: white;
-  cursor: pointer;
-}
-
-/* Styles for the task list */
-#task-list {
-  background-color: white;
+.modal-content {
+  background: white;
   padding: 20px;
   border-radius: 5px;
-  margin: 0 auto;
-  width: 70%;
-  list-style-type: none;
+  text-align: center;
+}
+
+/* Additional styles for the task list */
+.task-input {
+  margin-top: 20px;
 }
 
 .task-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 0;
-  border-bottom: 1px solid #ccc;
+  padding: 10px;
+  margin-top: 10px;
+  background-color: lightblue;
+  border-radius: 5px;
 }
 
-/* Styles for completed tasks */
 .completed {
   text-decoration: line-through;
-  color: #ccc;
+}
+
+/* Additional styles for the whole page */
+body {
+  background-color: lightgreen;
+  margin: 0; /* Remove default margin */
+}
+
+h1 {
+  background-color: blue;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  margin: 0;
 }
