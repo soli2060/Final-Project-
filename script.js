@@ -47,11 +47,10 @@ function renderTasks() {
     taskList.appendChild(taskItem);
   });
 
-  // Show the reminder
-  const newTaskIndex = tasks.length - 1;
-  if (newTaskIndex >= 0) {
-    const newTask = tasks[newTaskIndex].task;
-    alert(`Task "${newTask}" added! It's due in ${daysRemaining} days.`);
+  // Show the reminder for the latest task
+  if (tasks.length > 0) {
+    const latestTask = tasks[tasks.length - 1].task;
+    alert(`Task "${latestTask}" added! It's due in ${daysRemaining} days.`);
   }
 }
 
