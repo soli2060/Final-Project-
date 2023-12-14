@@ -46,31 +46,22 @@ function renderTasks() {
 
     taskList.appendChild(taskItem);
   });
-
-  // Show the reminder
-  showCustomModal("Your task has been added!");
 }
 
 function showCustomModal(message) {
-  const modalContainer = document.createElement('div');
-  modalContainer.classList.add('modal-container');
+  const modalContainer = document.getElementById('reminder-modal');
+  modalContainer.style.display = 'flex';
 
-  const modalContent = document.createElement('div');
-  modalContent.classList.add('modal-content');
+  const modalContent = modalContainer.querySelector('.modal-content');
   modalContent.innerHTML = `
     <p>${message}</p>
     <button onclick="removeReminder()">Okay</button>
   `;
-
-  modalContainer.appendChild(modalContent);
-  document.body.appendChild(modalContainer);
 }
 
 function removeReminder() {
-  const modalContainer = document.querySelector('.modal-container');
-  if (modalContainer) {
-    modalContainer.remove();
-  }
+  const modalContainer = document.getElementById('reminder-modal');
+  modalContainer.style.display = 'none';
 }
 
 function addTask() {
@@ -84,6 +75,7 @@ function addTask() {
     taskInput.value = '';
     dueDateInput.value = '';
     saveTasks();
+    showCustomModal("Your task has been added!");
   }
 }
 
