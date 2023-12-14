@@ -1,23 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Task Manager</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Manager</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Task Manager</h1>
-        </header>
-        <div class="task-input">
-            <input type="text" id="taskInput" placeholder="Enter a task">
-            <input type="date" id="taskDueDate">
-            <button onclick="addTask()">Add Task</button>
-        </div>
-        <div id="taskList" class="task-list"></div>
+  <div class="container">
+    <header>
+      <h1>Task Manager</h1>
+    </header>
+    <div class="task-input">
+      <input type="text" placeholder="Enter a task">
+      <input type="date">
+      <button>Add Task</button>
     </div>
-    <script src="script.js"></script>
+    <div class="task-list">
+      <!-- Task items will be displayed here -->
+    </div>
+  </div>
 </body>
 </html>
