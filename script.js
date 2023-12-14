@@ -1,13 +1,10 @@
-// Load tasks from localStorage or initialize an empty array
 let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 
-// Function to save tasks to localStorage
 function saveTasks() {
   localStorage.setItem('tasks', JSON.stringify(tasks));
   renderTasks();
 }
 
-// Function to render tasks
 function renderTasks() {
   const taskList = document.getElementById('task-list');
   taskList.innerHTML = '';
@@ -33,6 +30,7 @@ function renderTasks() {
     completeButton.addEventListener('click', () => {
       tasks[index].completed = true;
       saveTasks();
+      renderTasks(); // Update the task list to reflect completed task
     });
 
     const deleteButton = document.createElement('button');
@@ -40,6 +38,7 @@ function renderTasks() {
     deleteButton.addEventListener('click', () => {
       tasks.splice(index, 1);
       saveTasks();
+      renderTasks(); // Update the task list after deleting a task
     });
 
     taskItem.appendChild(taskText);
@@ -49,38 +48,31 @@ function renderTasks() {
 
     taskList.appendChild(taskItem);
   });
+}
 
-  // Function to show a reminder when a task is added
-  function showReminder(task, daysRemaining) {
-    const reminderMessage = `Task "${task}" added! It's due in ${daysRemaining} days.`;
+function addTask() {
+  const taskInput = document.querySelector('.task-input input[type="text"]');
+  const dueDateInput = document.querySelector('.task-input input[type="date"]');
+  const task = taskInput.value;
+  const dueDate = dueDateInput.value;
 
-    // Display the reminder using an alert
-    alert(reminderMessage);
-  }
+  if (task.trim() !== '') {
+    tasks.push({ task, dueDate, completed: false });
+    taskInput.value = '';
+    dueDateInput.value = '';
+    saveTasks();
 
-  // Function to add a task
-  function addTask() {
-    const taskInput = document.querySelector('.task-input input[type="text"]');
-    const dueDateInput = document.querySelector('.task-input input[type="date"]');
-    const task = taskInput.value;
-    const dueDate = dueDateInput.value;
-
-    if (task.trim() !== '') {
-      tasks.push({ task, dueDate, completed: false });
-      taskInput.value = '';
-      dueDateInput.value = '';
-      saveTasks();
-
-      // Calculate days remaining
-      const dueDateObj = new Date(dueDate);
-      const currentDate = new Date();
-      const daysRemaining = Math.ceil((dueDateObj - currentDate) / (1000 * 60 * 60 * 24));
-
-      // Show the reminder
-      showReminder(task, daysRemaining);
+    // Calculate days remaining for the added task
+    const dueDateObj = new Date(dueDate);
+    const currentDate = new Date();
+    const daysRemaining = Math.ceil((dueDateObj - currentDate) / (1000 * 60 * 60 * 24));
+    
+    // Show a reminder as an alert with the task name and due date if the task is not completed
+    if (!tasks[tasks.length - 1].completed) {
+      alert(`Task "${task}" added! It's due in ${daysRemaining} days.`);
     }
   }
-
-  // Call renderTasks when the page loads
-  window.onload = renderTasks;
 }
+
+// Call renderTasks when the page loads
+window.onload = renderTasks;
