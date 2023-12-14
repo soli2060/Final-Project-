@@ -1,5 +1,4 @@
 let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-let lastShownReminderTime = null;
 
 function saveTasks() {
     localStorage.setItem('tasks', JSON.stringify(tasks));
@@ -40,9 +39,6 @@ function renderTasks() {
 
         // Display a custom modal with the calculated days remaining
         showCustomModal(reminderMessage);
-
-        // Set the last shown reminder time
-        lastShownReminderTime = new Date();
     }
 }
 
