@@ -5,14 +5,12 @@ body, html {
     background-color: #f4f4f4;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start; /* Align items to start to avoid vertical centering */
     min-height: 100vh;
 }
 
 .container {
-    width: 100%;
-    max-width: 800px; /* Adjust as necessary for optimal width */
-    margin: auto;
+    width: 100%; /* Container takes full width */
     padding: 20px;
     box-sizing: border-box;
 }
@@ -23,31 +21,36 @@ header {
 }
 
 .task-input {
-    display: grid;
-    grid-template-columns: 1fr 1fr auto; /* Adjust the distribution of input fields and button */
+    background-color: #d4edda; /* Light green background */
+    padding: 15px;
+    border-radius: 8px;
+    display: flex; /* Use flexbox for horizontal layout */
     gap: 10px;
     margin-bottom: 20px;
 }
 
 .task-input input, .task-input button {
-    padding: 15px; /* Increased padding for better visibility */
+    flex-grow: 1; /* Inputs and button grow to fill space */
+    padding: 10px;
     border-radius: 5px;
-    border: 1px solid #ddd;
+    border: 1px solid #c3e6cb;
+    font-size: 1rem;
 }
 
 .task-input input {
-    font-size: 1rem; /* Larger font size for better readability */
+    outline: none;
 }
 
 .task-input button {
-    background-color: #4CAF50; /* A more vibrant button color */
+    width: auto; /* Button width auto-adjusts to content */
+    background-color: #28a745;
     color: white;
     cursor: pointer;
     transition: background-color 0.3s;
 }
 
 .task-input button:hover {
-    background-color: #45a049;
+    background-color: #218838;
 }
 
 .task-list div {
@@ -60,11 +63,4 @@ header {
 
 .task-completed {
     text-decoration: line-through;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .task-input {
-        grid-template-columns: 1fr; /* Stack inputs and button on smaller screens */
-    }
 }
