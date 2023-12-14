@@ -1,71 +1,55 @@
-let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Website</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="logo.png" type="image/x-icon">
+  <style>
+    /* Your existing styles */
 
-function saveTasks() {
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-}
-
-function renderTasks() {
-    const taskList = document.getElementById('tasks-list');
-    taskList.innerHTML = '';
-
-    tasks.forEach((task, index) => {
-        const taskElement = document.createElement('div');
-        taskElement.classList.add('task');
-
-        taskElement.innerHTML = `
-            <span>${task.title} - Due: ${task.dueDate}</span>
-            <button onclick="toggleComplete(${index})">Complete</button>
-            <button onclick="deleteTask(${index})">Delete</button>
-        `;
-
-        // Add the 'completed' class if the task is completed
-        if (task.completed) {
-            taskElement.classList.add('completed');
-        }
-
-        taskList.appendChild(taskElement);
-    });
-
-    // Show the reminder if there are tasks
-    if (tasks.length > 0) {
-        const nearestTask = findNearestTask();
-        const daysRemaining = calculateDaysRemaining(nearestTask.dueDate);
-        const reminderMessage = `Next task: ${nearestTask.title} is due in ${daysRemaining} days!`;
-        showCustomModal(reminderMessage);
+    /* Additional styling for modal */
+    .modal-container {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #fff;
+      padding: 20px;
+      border: 1px solid #333;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      z-index: 999;
     }
-}
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-container">
+      <a href="index.html" style="color: white;">Go Back to Home Page</a>
+      <a href="page7.html" style="color: white;">Page 7</a>
+    </div>
+  </nav>
+  <div class="container">
+    <main>
+      <!-- Your existing content -->
+    </main>
+  </div>
+  <footer>
+    <p>&copy; ShubhaMegh LLC 2023</p>
+  </footer>
 
-function showCustomModal(message) {
-    const modalContainer = document.createElement('div');
-    modalContainer.classList.add('modal-container');
-    modalContainer.setAttribute('id', 'reminder-modal');
+  <script>
+    // Your existing JavaScript code
 
-    const modalContent = document.createElement('div');
-    modalContent.classList.add('modal-content');
-    modalContent.innerHTML = `
-        <p>${message}</p>
-        <button onclick="removeReminder()">Okay</button>
-    `;
+    function addTask() {
+      const taskInput = document.getElementById('task-input');
+      const dueDateInput = document.getElementById('task-due-date');
 
-    modalContainer.appendChild(modalContent);
-    document.body.appendChild(modalContainer);
-}
+      const task = taskInput.value.trim();
+      const dueDate = dueDateInput.value;
 
-function removeReminder() {
-    const modalContainer = document.getElementById('reminder-modal');
-    if (modalContainer) {
-        modalContainer.remove();
-    }
-}
-
-function addTask() {
-    const taskInput = document.getElementById('task-input');
-    const dueDateInput = document.getElementById('task-due-date');
-
-    const task = taskInput.value.trim();
-    const dueDate = dueDateInput.value;
-
-    if (task && dueDate) {
+      if (task && dueDate) {
         tasks.push({ title: task, dueDate, completed: false });
         taskInput.value = '';
         dueDateInput.value = '';
@@ -75,36 +59,12 @@ function addTask() {
         const daysRemaining = calculateDaysRemaining(dueDate);
         const reminderMessage = `New task: ${task} is due in ${daysRemaining} days!`;
         showCustomModal(reminderMessage);
-
-        // Reload the page to display the updated task list
-        renderTasks();
-    } else {
+      } else {
         alert('Please enter both a task and a due date');
+      }
+      // Reload the page to display the updated task list
+      renderTasks();
     }
-}
-
-function toggleComplete(index) {
-    tasks[index].completed = !tasks[index].completed;
-    saveTasks();
-    renderTasks();
-}
-
-function deleteTask(index) {
-    tasks.splice(index, 1);
-    saveTasks();
-    renderTasks();
-}
-
-function calculateDaysRemaining(dueDate) {
-    const now = new Date();
-    const dueDateTime = new Date(dueDate);
-
-    // Calculate the difference in days
-    const timeDifference = dueDateTime.getTime() - now.getTime();
-    const daysRemaining = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
-
-    return daysRemaining;
-}
-
-// Call renderTasks when the page loads
-window.onload = renderTasks;
+  </script>
+</body>
+</html>
