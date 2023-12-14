@@ -27,11 +27,10 @@ function renderTasks() {
         taskList.appendChild(taskElement);
     });
 
-    // Find the task with the nearest due date
-    const nearestTask = findNearestTask();
-
     // Close any existing reminder modal
     removeReminder();
+
+    const nearestTask = findNearestTask();
 
     if (nearestTask && !nearestTask.completed) {
         const daysRemaining = calculateDaysRemaining(nearestTask.dueDate);
