@@ -60,12 +60,10 @@ function addTask() {
     dueDateInput.value = '';
     saveTasks();
 
-    // Calculate days remaining for the newly added task
+    // Show a reminder as an alert with the task name and due date
     const dueDateObj = new Date(dueDate);
     const currentDate = new Date();
     const daysRemaining = Math.ceil((dueDateObj - currentDate) / (1000 * 60 * 60 * 24));
-
-    // Show a reminder as an alert with the task name
     alert(`Task "${task}" added! It's due in ${daysRemaining} days.`);
   }
 }
