@@ -1,58 +1,91 @@
 let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 
 function saveTasks() {
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-    renderTasks();
-    checkDueTasks(); // Check for reminders after saving tasks
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+  renderTasks();
 }
 
 function renderTasks() {
-    const taskList = document.getElementById('taskList');
-    taskList.innerHTML = '';
-    tasks.forEach((task, index) => {
-        const taskDiv = document.createElement('div');
-        taskDiv.className = task.completed ? 'task-completed' : '';
-        taskDiv.innerHTML = `
-            ${task.description} (Due: ${task.dueDate})
-            <button onclick="toggleComplete(${index})">${task.completed ? 'Unmark' : 'Complete'}</button>
-            <button onclick="deleteTask(${index})">Delete</button>
-        `;
-        taskList.appendChild(taskDiv);
+  const taskList = document.getElementById('task-list');
+  taskList.innerHTML = '';
+
+  tasks.forEach((task, index) => {
+    const taskItem = document.createElement('div');
+    taskItem.classList.add('task-item');
+    if (task.completed) {
+      taskItem.classList.add('completed');
+    }
+
+    const taskText = document.createElement('div');
+    taskText.textContent = task.task;
+
+    const taskDueDate = document.createElement('div');
+    const dueDate = new Date(task.dueDate);
+    const currentDate = new Date();
+    const daysRemaining = Math.ceil((dueDate - currentDate) / (1000 * 60 * 60 * 24));
+    taskDueDate.textContent = `Due in ${daysRemaining} days`;
+
+    const completeButton = document.createElement('button');
+    completeButton.textContent = 'Complete';
+    completeButton.addEventListener('click', () => {
+      tasks[index].completed = true;
+      saveTasks();
     });
+
+    const deleteButton = document.createElement('button');
+    deleteButton.textContent = 'Delete';
+    deleteButton.addEventListener('click', () => {
+      tasks.splice(index, 1);
+      saveTasks();
+    });
+
+    taskItem.appendChild(taskText);
+    taskItem.appendChild(taskDueDate);
+    taskItem.appendChild(completeButton);
+    taskItem.appendChild(deleteButton);
+
+    taskList.appendChild(taskItem);
+  });
+
+  // Show the reminder
+  showCustomModal("Your task has been added!");
+}
+
+function showCustomModal(message) {
+  const modalContainer = document.createElement('div');
+  modalContainer.classList.add('modal-container');
+
+  const modalContent = document.createElement('div');
+  modalContent.classList.add('modal-content');
+  modalContent.innerHTML = `
+    <p>${message}</p>
+    <button onclick="removeReminder()">Okay</button>
+  `;
+
+  modalContainer.appendChild(modalContent);
+  document.body.appendChild(modalContainer);
+}
+
+function removeReminder() {
+  const modalContainer = document.querySelector('.modal-container');
+  if (modalContainer) {
+    modalContainer.remove();
+  }
 }
 
 function addTask() {
-    const taskInput = document.getElementById('taskInput');
-    const taskDueDate = document.getElementById('taskDueDate');
-    const newTask = taskInput.value.trim();
-    const dueDate = taskDueDate.value;
-    if (newTask && dueDate) {
-        tasks.push({ description: newTask, dueDate: dueDate, completed: false });
-        saveTasks();
-        taskInput.value = '';
-        taskDueDate.value = '';
-    } else {
-        alert('Please enter a task and due date');
-    }
-}
+  const taskInput = document.querySelector('.task-input input[type="text"]');
+  const dueDateInput = document.querySelector('.task-input input[type="date"]');
+  const task = taskInput.value;
+  const dueDate = dueDateInput.value;
 
-function toggleComplete(index) {
-    tasks[index].completed = !tasks[index].completed;
+  if (task.trim() !== '') {
+    tasks.push({ task, dueDate, completed: false });
+    taskInput.value = '';
+    dueDateInput.value = '';
     saveTasks();
+  }
 }
 
-function deleteTask(index) {
-    tasks.splice(index, 1);
-    saveTasks();
-}
-
-function checkDueTasks() {
-    const today = new Date().toISOString().split('T')[0];
-    let upcomingTasks = tasks.filter(task => !task.completed && new Date(task.dueDate) <= new Date(today));
-    if (upcomingTasks.length > 0) {
-        let message = 'Reminder: The following tasks are due soon:\n' + upcomingTasks.map(task => task.description).join(', ');
-        alert(message);
-    }
-}
-
+// Call renderTasks when the page loads
 window.onload = renderTasks;
