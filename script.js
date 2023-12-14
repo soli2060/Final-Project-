@@ -46,18 +46,37 @@ function renderTasks() {
 
     taskList.appendChild(taskItem);
   });
+
+  // Show the reminder if there are tasks due within 24 hours
+  showReminderForTasksDueWithin24Hours();
+
+  // Hide the reminder after 5 seconds
+  setTimeout(() => {
+    hideReminder();
+  }, 5000);
 }
 
-function showCustomModal(message) {
-  const modalContainer = document.getElementById('reminder-modal');
-  const modalContent = document.getElementById('reminder-content');
-  modalContent.innerHTML = `<p>${message}</p>`;
-  modalContainer.style.display = 'flex';
+function showReminderForTasksDueWithin24Hours() {
+  const currentDate = new Date();
+  const tasksDueWithin24Hours = tasks.filter(task => {
+    const dueDate = new Date(task.dueDate);
+    const timeDifference = dueDate - currentDate;
+    const hoursRemaining = timeDifference / (1000 * 60 * 60);
+    return hoursRemaining >= 0 && hoursRemaining <= 24 && !task.completed;
+  });
+
+  if (tasksDueWithin24Hours.length > 0) {
+    const reminderMessage = tasksDueWithin24Hours.map(task => {
+      return `Task "${task.task}" is due in less than 24 hours.`;
+    }).join('\n');
+
+    alert(reminderMessage);
+  }
 }
 
-function removeReminder() {
-  const modalContainer = document.getElementById('reminder-modal');
-  modalContainer.style.display = 'none';
+function hideReminder() {
+  // Hide the reminder by clearing the alert
+  window.alert('');
 }
 
 function addTask() {
@@ -71,15 +90,6 @@ function addTask() {
     taskInput.value = '';
     dueDateInput.value = '';
     saveTasks();
-
-    // Calculate days remaining
-    const dueDateObj = new Date(dueDate);
-    const currentDate = new Date();
-    const timeDifference = dueDateObj - currentDate;
-    const daysRemaining = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
-
-    // Show the reminder
-    showCustomModal(`Task "${task}" added! It's due in ${daysRemaining} days.`);
   }
 }
 
