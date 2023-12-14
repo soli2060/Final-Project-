@@ -1,77 +1,76 @@
-/* style.css */
-body {
-    font-family: Arial, sans-serif;
+body, html {
     margin: 0;
     padding: 0;
-    background-color: #d8f6ec;
+    font-family: 'Roboto', sans-serif;
+    background: #e6f9ff; /* Light blue background */
+    color: #333; /* Darker text for readability */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container {
+    width: 100%; /* Use full width of the viewport */
+    padding: 20px;
+    box-sizing: border-box;
 }
 
 header {
-    background-color: rgb(96, 96, 157);
-    color: #f1dfdf;
     text-align: center;
-    padding: 1rem 0;
-}
-
-main {
-    padding: 20px;
-}
-
-#task-input {
-    padding: 10px;
-    width: 70%;
-}
-
-#task-form input[type=datetime-local] {
-    padding: 10px;
-    margin-left: 5px;
-}
-
-button {
-    padding: 10px;
-    background-color: rgb(127, 127, 224);
-    color: rgb(31, 63, 34);
-    border: none;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: rgb(240, 240, 245);
-}
-
-#tasks-list {
-    margin-top: 20px;
-}
-
-.task {
-    background: rgb(236, 236, 240);
-    padding: 20px;
     margin-bottom: 20px;
-    border-radius: 8px;
+    color: #2a5d67; /* A shade of blue for headers */
+}
+
+.task-input {
+    width: 100%; /* Full width for input section */
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    transition: all 0.3s ease;
+    margin-bottom: 20px;
 }
 
-.task:hover {
-    background-color: #636b6e;
+.task-input input[type="text"], .task-input input[type="date"] {
+    flex-grow: 1; /* Inputs expand to take available space */
+    margin-right: 10px;
+    padding: 10px;
+    border: 1px solid #a0d6b4; /* Light green border */
+    border-radius: 4px;
+    background: #f0fff4; /* Very light green background */
 }
 
-.task.completed {
-    text-decoration: line-through;
-    opacity: 0.6;
-}
-
-.task button {
+.task-input button {
+    padding: 10px 20px;
     border: none;
-    background: none;
+    border-radius: 4px;
+    background: #5cb85c; /* Light green background */
+    color: white;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-.task button:hover {
-    color: rgb(222, 23, 23);
+.task-input button:hover {
+    background: #4cae4c;
 }
-Write to Suprabha Sharma
 
+.task-list div {
+    width: 100%; /* Full width for task list items */
+    background: #f9f9f9; /* Very light green background */
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
 
+/* Responsive design adjustments */
+@media (max-width: 768px) {
+    .task-input {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .task-input input[type="text"], .task-input input[type="date"], .task-input button {
+        margin-bottom: 10px;
+        margin-right: 0;
+        width: 100%;
+    }
+}
