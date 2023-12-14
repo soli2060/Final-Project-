@@ -30,9 +30,12 @@ function renderTasks() {
     // Find the task with the nearest due date
     const nearestTask = findNearestTask();
 
-    // Close any existing reminder modal
-    removeReminder();
+    // Close any existing reminder modal if the task is completed
+    if (nearestTask && nearestTask.completed) {
+        removeReminder();
+    }
 
+    // Display a new reminder if there is a task and it's not completed
     if (nearestTask && !nearestTask.completed) {
         const daysRemaining = calculateDaysRemaining(nearestTask.dueDate);
         const reminderMessage = `Next task: ${nearestTask.title} is due in ${daysRemaining} days!`;
@@ -43,26 +46,11 @@ function renderTasks() {
 }
 
 function showCustomModal(message) {
-    const modalContainer = document.createElement('div');
-    modalContainer.classList.add('modal-container');
-    modalContainer.setAttribute('id', 'reminder-modal');
-
-    const modalContent = document.createElement('div');
-    modalContent.classList.add('modal-content');
-    modalContent.innerHTML = `
-        <p>${message}</p>
-        <button onclick="removeReminder()">Okay</button>
-    `;
-
-    modalContainer.appendChild(modalContent);
-    document.body.appendChild(modalContainer);
+    alert(message);  // For simplicity, using alert instead of a modal
 }
 
 function removeReminder() {
-    const modalContainer = document.getElementById('reminder-modal');
-    if (modalContainer) {
-        modalContainer.remove();
-    }
+    // Implement the removal of the reminder here, e.g., close the alert
 }
 
 function addTask() {
@@ -77,12 +65,12 @@ function addTask() {
         taskInput.value = '';
         dueDateInput.value = '';
         saveTasks();
+
+        // Reload the page to display the updated task list and the new reminder
+        renderTasks();
     } else {
         alert('Please enter both a task and a due date');
     }
-
-    // Show the reminder on page load after adding a task
-    renderTasks();
 }
 
 function toggleComplete(index) {
