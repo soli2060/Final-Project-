@@ -1,4 +1,5 @@
 let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+let lastShownReminderTime = null;
 
 function saveTasks() {
     localStorage.setItem('tasks', JSON.stringify(tasks));
@@ -33,16 +34,15 @@ function renderTasks() {
     // Close any existing reminder modal
     removeReminder();
 
-    if (nearestTask && !nearestTask.completed && !nearestTask.reminderShown) {
+    if (nearestTask && !nearestTask.completed) {
         const daysRemaining = calculateDaysRemaining(nearestTask.dueDate);
         const reminderMessage = `Next task: ${nearestTask.title} is due in ${daysRemaining} days!`;
 
         // Display a custom modal with the calculated days remaining
         showCustomModal(reminderMessage);
 
-        // Set a flag to indicate that the reminder has been shown for this task
-        nearestTask.reminderShown = true;
-        saveTasks();
+        // Set the last shown reminder time
+        lastShownReminderTime = new Date();
     }
 }
 
@@ -77,7 +77,7 @@ function addTask() {
     const dueDate = dueDateInput.value;
 
     if (task && dueDate) {
-        tasks.push({ title: task, dueDate, completed: false, reminderShown: false });
+        tasks.push({ title: task, dueDate, completed: false });
         taskInput.value = '';
         dueDateInput.value = '';
         saveTasks();
