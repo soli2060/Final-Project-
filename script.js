@@ -26,7 +26,7 @@ function renderTasks() {
         taskList.appendChild(taskElement);
     });
 
-    // Show the reminder on page load if there are tasks
+    // Show the reminder if there are tasks
     if (tasks.length > 0) {
         const nearestTask = findNearestTask();
         const daysRemaining = calculateDaysRemaining(nearestTask.dueDate);
@@ -75,7 +75,7 @@ function addTask() {
         const daysRemaining = calculateDaysRemaining(dueDate);
         const reminderMessage = `New task: ${task} is due in ${daysRemaining} days!`;
         showCustomModal(reminderMessage);
-        
+
         // Reload the page to display the updated task list
         renderTasks();
     } else {
