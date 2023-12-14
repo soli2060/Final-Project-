@@ -46,29 +46,18 @@ function renderTasks() {
 
     taskList.appendChild(taskItem);
   });
-
-  // Show the reminder
-  showCustomModal();
 }
 
-function showCustomModal() {
+function showCustomModal(message) {
   const modalContainer = document.createElement('div');
   modalContainer.classList.add('modal-container');
 
   const modalContent = document.createElement('div');
   modalContent.classList.add('modal-content');
-  const nextTask = findNextTask();
-  if (nextTask) {
-    modalContent.innerHTML = `
-      <p>Next task: ${nextTask.task} - Due in ${nextTask.daysRemaining} days</p>
-      <button onclick="removeReminder()">Okay</button>
-    `;
-  } else {
-    modalContent.innerHTML = `
-      <p>No upcoming tasks</p>
-      <button onclick="removeReminder()">Okay</button>
-    `;
-  }
+  modalContent.innerHTML = `
+    <p>${message}</p>
+    <button onclick="removeReminder()">Okay</button>
+  `;
 
   modalContainer.appendChild(modalContent);
   document.body.appendChild(modalContainer);
@@ -92,19 +81,9 @@ function addTask() {
     taskInput.value = '';
     dueDateInput.value = '';
     saveTasks();
+    // Show the reminder after adding a task
+    showCustomModal(`Task "${task}" added! It's due in ${daysRemaining} days.`);
   }
-}
-
-function findNextTask() {
-  const currentDate = new Date();
-  const upcomingTasks = tasks.filter(task => !task.completed && new Date(task.dueDate) > currentDate);
-  if (upcomingTasks.length === 0) {
-    return null;
-  }
-  upcomingTasks.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
-  const nextTask = upcomingTasks[0];
-  const daysRemaining = Math.ceil((new Date(nextTask.dueDate) - currentDate) / (1000 * 60 * 60 * 24));
-  return { task: nextTask.task, daysRemaining };
 }
 
 // Call renderTasks when the page loads
