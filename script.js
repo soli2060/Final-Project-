@@ -66,7 +66,7 @@ function addTask() {
     const daysRemaining = Math.ceil((dueDateObj - currentDate) / (1000 * 60 * 60 * 24));
 
     // Show a reminder as an alert
-    alert(`Task added! It's due in ${daysRemaining} days.`);
+    alert(`Task "${task}" added! It's due in ${daysRemaining} days.`);
   }
 }
 
