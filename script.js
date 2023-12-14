@@ -1,13 +1,10 @@
-// Load tasks from localStorage or initialize an empty array
 let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 
-// Function to save tasks to localStorage
 function saveTasks() {
   localStorage.setItem('tasks', JSON.stringify(tasks));
   renderTasks();
 }
 
-// Function to render tasks
 function renderTasks() {
   const taskList = document.getElementById('task-list');
   taskList.innerHTML = '';
@@ -48,18 +45,36 @@ function renderTasks() {
     taskItem.appendChild(deleteButton);
 
     taskList.appendChild(taskItem);
+
+    // Show a reminder for this task
+    if (!task.completed) {
+      showCustomModal(`Task "${task.task}" is due in ${daysRemaining} days.`);
+    }
   });
 }
 
-// Function to show a reminder when a task is added
-function showReminder(task, daysRemaining) {
-  const reminderMessage = `Task "${task}" added! It's due in ${daysRemaining} days.`;
+function showCustomModal(message) {
+  const modalContainer = document.createElement('div');
+  modalContainer.classList.add('modal-container');
 
-  // Display the reminder using an alert
-  alert(reminderMessage);
+  const modalContent = document.createElement('div');
+  modalContent.classList.add('modal-content');
+  modalContent.innerHTML = `
+    <p>${message}</p>
+    <button onclick="removeReminder()">Okay</button>
+  `;
+
+  modalContainer.appendChild(modalContent);
+  document.body.appendChild(modalContainer);
 }
 
-// Function to add a task
+function removeReminder() {
+  const modalContainer = document.querySelector('.modal-container');
+  if (modalContainer) {
+    modalContainer.remove();
+  }
+}
+
 function addTask() {
   const taskInput = document.querySelector('.task-input input[type="text"]');
   const dueDateInput = document.querySelector('.task-input input[type="date"]');
@@ -71,14 +86,6 @@ function addTask() {
     taskInput.value = '';
     dueDateInput.value = '';
     saveTasks();
-
-    // Calculate days remaining
-    const dueDateObj = new Date(dueDate);
-    const currentDate = new Date();
-    const daysRemaining = Math.ceil((dueDateObj - currentDate) / (1000 * 60 * 60 * 24));
-
-    // Show the reminder
-    showReminder(task, daysRemaining);
   }
 }
 
