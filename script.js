@@ -46,27 +46,12 @@ function renderTasks() {
 
     taskList.appendChild(taskItem);
   });
-}
 
-function showCustomModal(message) {
-  const modalContainer = document.createElement('div');
-  modalContainer.classList.add('modal-container');
-
-  const modalContent = document.createElement('div');
-  modalContent.classList.add('modal-content');
-  modalContent.innerHTML = `
-    <p>${message}</p>
-    <button onclick="removeReminder()">Okay</button>
-  `;
-
-  modalContainer.appendChild(modalContent);
-  document.body.appendChild(modalContainer);
-}
-
-function removeReminder() {
-  const modalContainer = document.querySelector('.modal-container');
-  if (modalContainer) {
-    modalContainer.remove();
+  // Show the reminder
+  const newTaskIndex = tasks.length - 1;
+  if (newTaskIndex >= 0) {
+    const newTask = tasks[newTaskIndex].task;
+    alert(`Task "${newTask}" added! It's due in ${daysRemaining} days.`);
   }
 }
 
@@ -81,8 +66,6 @@ function addTask() {
     taskInput.value = '';
     dueDateInput.value = '';
     saveTasks();
-    // Show the reminder
-    showCustomModal(`Task "${task}" added! It's due in ${daysRemaining} days.`);
   }
 }
 
