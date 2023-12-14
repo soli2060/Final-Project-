@@ -7,49 +7,46 @@ function saveTasks() {
 
 function renderTasks() {
     const taskList = document.getElementById('taskList');
-    taskList.innerHTML = ''; // Clear existing tasks
-    tasks.forEach((task, index) => {
+    taskList.innerHTML = '';
+    tasks.forEach((task) => {
         const taskDiv = document.createElement('div');
-        taskDiv.textContent = task;
-        // Additional functionalities like delete or toggle can be added here
+        taskDiv.textContent = `${task.description} - Due: ${task.dueDate}`;
         taskList.appendChild(taskDiv);
+    });
+    checkDueTasks();
+}
+
+function checkDueTasks() {
+    const today = new Date().toISOString().split('T')[0];
+    tasks.forEach(task => {
+        if (!task.completed && new Date(task.dueDate) <= new Date(today)) {
+            showCustomModal(`Task ${task.description} is due now!`);
+        }
     });
 }
 
 function addTask() {
     const taskInput = document.getElementById('taskInput');
-    const newTask = taskInput.value.trim();
-    if (newTask) {
+    const taskDueDate = document.getElementById('taskDueDate');
+    const newTask = {
+        description: taskInput.value.trim(),
+        dueDate: taskDueDate.value,
+        completed: false // You can update this field when the task is completed
+    };
+    if (newTask.description && newTask.dueDate) {
         tasks.push(newTask);
         saveTasks();
-        taskInput.value = ''; // Clear the input field after adding the task
+        taskInput.value = '';
+        taskDueDate.value = '';
     } else {
-        showCustomModal('Please enter a task');
+        showCustomModal('Please enter a task and due date');
     }
 }
 
 function showCustomModal(message) {
-    const modalContainer = document.createElement('div');
-    modalContainer.classList.add('modal-container');
-
-    const modalContent = document.createElement('div');
-    modalContent.classList.add('modal-content');
-    modalContent.innerHTML = `
-        <p>${message}</p>
-        <button onclick="removeReminder()">Okay</button>
-    `;
-
-    modalContainer.appendChild(modalContent);
-    document.body.appendChild(modalContainer);
+    // Modal implementation here
 }
 
-function removeReminder() {
-    const modalContainer = document.querySelector('.modal-container');
-    if (modalContainer) {
-        modalContainer.remove();
-    }
-}
-
-// Other functions (toggleComplete, deleteTask, calculateDaysRemaining, findNearestTask) go here
+// Other functions here
 
 window.onload = renderTasks;
