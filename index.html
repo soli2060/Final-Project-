@@ -1,28 +1,89 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Task Manager</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Website</title>
+  <style>
+    .modal-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-content {
+      background: white;
+      padding: 20px;
+      border-radius: 5px;
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
-    <div id="app">
-        <header>
-            <h1>Task Manager</h1>
-        </header>
-        <main>
-            <section id="task-form">
-                <input type="text" id="task-input" placeholder="Add a new task...">
-                <input type="datetime-local" id="task-due-date">
-                <button onclick="addTask()">Add Task</button>
-            </section>
-            <section id="tasks-list">
-                <!-- Tasks will be added here dynamically -->
-            </section>
-        </main>
-    </div>
-    <script src="script.js"></script>
+  <input type="text" id="taskInput" placeholder="Enter a task">
+  <button onclick="addTask()">Add Task</button>
+
+  <div id="taskList"></div>
+
+  <script>
+    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+    function saveTasks() {
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+      renderTasks();
+    }
+
+    function renderTasks() {
+      const taskList = document.getElementById('taskList');
+      taskList.innerHTML = '';
+      tasks.forEach((task, index) => {
+        const taskDiv = document.createElement('div');
+        taskDiv.textContent = task;
+        taskList.appendChild(taskDiv);
+      });
+    }
+
+    function addTask() {
+      const taskInput = document.getElementById('taskInput');
+      const newTask = taskInput.value.trim();
+      if (newTask) {
+        tasks.push(newTask);
+        saveTasks();
+        taskInput.value = '';
+      } else {
+        showCustomModal('Please enter a task');
+      }
+    }
+
+    function showCustomModal(message) {
+      const modalContainer = document.createElement('div');
+      modalContainer.classList.add('modal-container');
+
+      const modalContent = document.createElement('div');
+      modalContent.classList.add('modal-content');
+      modalContent.innerHTML = `
+        <p>${message}</p>
+        <button onclick="removeReminder()">Okay</button>
+      `;
+
+      modalContainer.appendChild(modalContent);
+      document.body.appendChild(modalContainer);
+    }
+
+    function removeReminder() {
+      const modalContainer = document.querySelector('.modal-container');
+      if (modalContainer) {
+        modalContainer.remove();
+      }
+    }
+
+    window.onload = renderTasks;
+  </script>
 </body>
 </html>
