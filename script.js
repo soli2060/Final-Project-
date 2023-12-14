@@ -46,14 +46,27 @@ function renderTasks() {
 
     taskList.appendChild(taskItem);
   });
+}
 
-  // Show the reminder for the latest task
-  if (tasks.length > 0) {
-    const latestTask = tasks[tasks.length - 1].task;
-    const dueDate = new Date(tasks[tasks.length - 1].dueDate);
-    const currentDate = new Date();
-    const daysRemaining = Math.ceil((dueDate - currentDate) / (1000 * 60 * 60 * 24));
-    alert(`Task "${latestTask}" added! It's due in ${daysRemaining} days.`);
+function showReminder(task, daysRemaining) {
+  const reminderModal = document.createElement('div');
+  reminderModal.classList.add('modal-container');
+
+  const reminderContent = document.createElement('div');
+  reminderContent.classList.add('modal-content');
+  reminderContent.innerHTML = `
+    <p>Task "${task}" added! It's due in ${daysRemaining} days.</p>
+    <button onclick="closeReminder()">Okay</button>
+  `;
+
+  reminderModal.appendChild(reminderContent);
+  document.body.appendChild(reminderModal);
+}
+
+function closeReminder() {
+  const reminderModal = document.querySelector('.modal-container');
+  if (reminderModal) {
+    reminderModal.remove();
   }
 }
 
@@ -68,6 +81,11 @@ function addTask() {
     taskInput.value = '';
     dueDateInput.value = '';
     saveTasks();
+
+    const currentDate = new Date();
+    const taskDueDate = new Date(dueDate);
+    const daysRemaining = Math.ceil((taskDueDate - currentDate) / (1000 * 60 * 60 * 24));
+    showReminder(task, daysRemaining);
   }
 }
 
