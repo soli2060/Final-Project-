@@ -1,26 +1,27 @@
-/* Additional styles for the reminder modal */
-.modal-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+/* Styles for the entire page */
+body {
+  background-color: lightgreen;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
 }
 
-.modal-content {
-  background: white;
+/* Styles for the header */
+h1 {
+  background-color: blue;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  margin: 0;
+}
+
+/* Styles for the task input section */
+.task-input {
+  background-color: white;
   padding: 20px;
   border-radius: 5px;
-  text-align: center;
-}
-
-/* Additional styles for the task list */
-.task-input {
-  margin-top: 20px;
+  margin: 20px auto;
+  width: 70%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -33,50 +34,43 @@
   border: none;
   border-radius: 5px;
   font-size: 16px;
+  margin-right: 10px;
 }
 
 .task-input input[type="text"] {
-  flex: 2;
-  margin-right: 10px;
+  flex-grow: 2;
 }
 
 .task-input input[type="date"] {
-  flex: 1;
-  margin-right: 10px;
+  flex-grow: 1;
 }
 
 .task-input button {
-  background-color: lightblue;
+  background-color: blue;
   color: white;
   cursor: pointer;
 }
 
+/* Styles for the task list */
 #task-list {
-  margin-top: 20px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  margin: 0 auto;
+  width: 70%;
+  list-style-type: none;
 }
 
 .task-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px;
-  margin-top: 10px;
-  background-color: lightblue;
-  border-radius: 5px;
+  padding: 10px 0;
+  border-bottom: 1px solid #ccc;
 }
 
+/* Styles for completed tasks */
 .completed {
   text-decoration: line-through;
-}
-
-/* Additional styles for the page background and headline */
-body {
-  background-color: lightgreen;
-}
-
-h1 {
-  background-color: blue;
-  color: white;
-  padding: 10px;
-  text-align: center;
+  color: #ccc;
 }
